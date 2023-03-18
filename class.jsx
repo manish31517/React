@@ -20,3 +20,6 @@ class Student extends Person{
 
 const o1 = new Person('max')
 const o2 = new Student("ram",10)
+
+o1.greet()
+o2.greet()
