@@ -1,11 +1,12 @@
 import React from 'react'
-import Card from './Card.js' 
+import CardList from './Card.js' 
+
 class App extends React.Component {
     render(){
       return (
         <div>
            <div className='header'>{this.props.title}</div>
-           <Card />
+           <CardList />
         </div>
       );}
 }
