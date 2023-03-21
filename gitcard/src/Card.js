@@ -1,22 +1,5 @@
 import React from 'react'
-const testData = [
-   
-      {
-         "avatar_url": "https://avatars.githubusercontent.com/u/2?v=4",
-         "name": "jyoti",
-         "company": "bny"
-      },
-      {
-        "avatar_url": "https://avatars.githubusercontent.com/u/3?v=4",
-        "name":"manish",
-        "company":"morgan stanley"
-      },
-      {
-        "avatar_url": "https://avatars.githubusercontent.com/u/4?v=4",
-        "name": "harsh",
-        "company": "google"
-      }
-];
+
 
 const CardList = (props)=>{
     // return (
@@ -30,7 +13,7 @@ const CardList = (props)=>{
     //following code is equal to above commented code
     return (
         <div>
-            {testData.map(profile=> <Card {...profile}/>)}
+            {props.profile.map(profile=> <Card {...profile}/>)}
         </div>
     )
  }
