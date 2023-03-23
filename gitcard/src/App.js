@@ -23,17 +23,31 @@ const testData = [
 
 
 class App extends React.Component {
-  constructor(props){
-    super(props);
-    this.state= {
-      profile : testData
-    };
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.state= {
+  //     profile : testData
+  //   };
+  // }
+
+  //below code is similar to above commented code but this is not part of officcial javascript program
+   //here state is class variable 
+  state = {
+    // profile:testData
+     profile : [],  
+   }
+  
+   addNewProfile = (profileData)=> {
+    // console.log('App',profileData/)
+    this.setState(prevState=>({
+      profile: [...prevState.profile,profileData]
+    }));
+   }
     render(){
       return (
         <div>
            <div className='header'>{this.props.title}</div>
-           <Form />
+           <Form onSubmit={this.addNewProfile} />
            <CardList profile={this.state.profile} />
         </div>
       );}
