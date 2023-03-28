@@ -31,7 +31,7 @@ class Form extends React.Component{
             <form onSubmit={this.handleSubmit}>
               <input type="text" placeholder="Github Username" 
               value={this.state.userName}
-              onChange = { event => this.setState({userName : event.target.value})}
+             onChange = { event => this.setState({userName : event.target.value})}
               />
     
               <button>Add Card</button>
