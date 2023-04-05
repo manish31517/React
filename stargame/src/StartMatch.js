@@ -24,8 +24,29 @@ const StartMatch = ()=>{
 
         return 'available';
     }
+   
+    const onNumberClick = (number, currentStatus)=>{
+          if(currentStatus == 'used'){
+            return;
+          }
 
-    
+          const newCandidateNums =
+          currentStatus == 'available' ? candidateNums.concat(number):
+           candidateNums.filter( cn => cn != number);
+
+          if(utils.sum(newCandidateNums) != stars){
+            setCandidateNums(newCandidateNums)
+          }
+          else{
+              const newAvailableNums = availableNums.filter(
+                n => !newCandidateNums.includes(n)
+              );
+              console.log(utils.randomSumIN(newAvailableNums))
+              setStars(utils.randomSumIN(newAvailableNums,9));
+              setAvailableNums(newAvailableNums);
+              setCandidateNums([])
+          }
+    }
     return (
         <div className="game">
            <div>
@@ -41,6 +62,7 @@ const StartMatch = ()=>{
                 key={number}
                 number={number}
                 status = {numberStatus(number)} 
+                onClick = {onNumberClick}
                 />
             )}
             </div>
