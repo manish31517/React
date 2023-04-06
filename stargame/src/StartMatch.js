@@ -2,6 +2,7 @@ import utils from "./util.js"
 import {React,useState} from "react";
 import PlayNumber from "./PlayNumber.js";
 import StarDisplay from "./StarDisplay.js";
+import PlayAgain from "./PlayAgain.js";
 
 
 
@@ -12,6 +13,7 @@ const StartMatch = ()=>{
     const[candidateNums, setCandidateNums] = useState([])
     
     const candidatesAreWrong = utils.sum(candidateNums) > stars
+    const gameIsDone = availableNums.length === 0
 
     const numberStatus = (number) => {
         if(!availableNums.includes(number)){
@@ -24,24 +26,29 @@ const StartMatch = ()=>{
 
         return 'available';
     }
+    const resetGame = () => {
+        setStars(utils.random(1,9))
+        setAvailableNums(utils.range(1,9))
+        setCandidateNums([])
+    }
    
     const onNumberClick = (number, currentStatus)=>{
-          if(currentStatus == 'used'){
+          if(currentStatus === 'used'){
             return;
           }
 
           const newCandidateNums =
-          currentStatus == 'available' ? candidateNums.concat(number):
-           candidateNums.filter( cn => cn != number);
+          currentStatus === 'available' ? candidateNums.concat(number):
+           candidateNums.filter( cn => cn !== number);
 
-          if(utils.sum(newCandidateNums) != stars){
+          if(utils.sum(newCandidateNums) !== stars){
             setCandidateNums(newCandidateNums)
           }
           else{
               const newAvailableNums = availableNums.filter(
                 n => !newCandidateNums.includes(n)
               );
-              console.log(utils.randomSumIN(newAvailableNums))
+              
               setStars(utils.randomSumIN(newAvailableNums,9));
               setAvailableNums(newAvailableNums);
               setCandidateNums([])
@@ -54,6 +61,13 @@ const StartMatch = ()=>{
            </div>
            <div className="body">
             <div className="left">
+                {
+                    gameIsDone ? (
+                        <PlayAgain onClick = {resetGame}/>
+                    ) 
+                    :
+                    <StarDisplay />
+                }
              <StarDisplay count={stars}/>    
             </div>
             <div className="right">
