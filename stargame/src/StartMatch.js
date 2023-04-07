@@ -1,5 +1,5 @@
 import utils from "./util.js"
-import {React,useState} from "react";
+import {React,useEffect,useState} from "react";
 import PlayNumber from "./PlayNumber.js";
 import StarDisplay from "./StarDisplay.js";
 import PlayAgain from "./PlayAgain.js";
@@ -11,10 +11,25 @@ const StartMatch = ()=>{
     const [stars,setStars] = useState(utils.random(1,9));
     const [availableNums,setAvailableNums] = useState(utils.range(1,9));
     const[candidateNums, setCandidateNums] = useState([])
-    
-    const candidatesAreWrong = utils.sum(candidateNums) > stars
-    const gameIsDone = availableNums.length === 0
+    const [secondLeft, setsecondLeft] = useState(10);
+     
+   
+    useEffect(()=>{
+        if(secondLeft > 0 && availableNums.length  >0){
+              
+        let timerID = setTimeout(()=>{
+            setsecondLeft(secondLeft-1)
+        },1000)
 
+         return ()=>clearTimeout(timerID);
+        }
+    })
+
+    const candidatesAreWrong = utils.sum(candidateNums) > stars
+   
+    const gameStatus = availableNums.length === 0 ? "won"
+     : secondLeft === 0 ? 'lost' : 'active';
+    
     const numberStatus = (number) => {
         if(!availableNums.includes(number)){
             return 'used';
@@ -33,7 +48,7 @@ const StartMatch = ()=>{
     }
    
     const onNumberClick = (number, currentStatus)=>{
-          if(currentStatus === 'used'){
+          if(currentStatus === 'used' || gameStatus !== 'active'){
             return;
           }
 
@@ -62,13 +77,13 @@ const StartMatch = ()=>{
            <div className="body">
             <div className="left">
                 {
-                    gameIsDone ? (
-                        <PlayAgain onClick = {resetGame}/>
+                  gameStatus !== 'active' ? (
+                        <PlayAgain onClick = {resetGame} gameStatus={gameStatus}/>
                     ) 
-                    :
-                    <StarDisplay />
-                }
-             <StarDisplay count={stars}/>    
+                    :(
+                    <StarDisplay count={stars}/>
+                )}
+         {/* <StarDisplay count={stars}/>     */}
             </div>
             <div className="right">
                 {utils.range(1,9).map(number =>
@@ -81,6 +96,7 @@ const StartMatch = ()=>{
             )}
             </div>
            </div>
+           <div className="timer">Time Remaining : {secondLeft}</div>
          </div>
 
     )
