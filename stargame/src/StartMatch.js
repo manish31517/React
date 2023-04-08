@@ -7,7 +7,7 @@ import PlayAgain from "./PlayAgain.js";
 
 
 
-const StartMatch = ()=>{
+const StartMatch = (props)=>{
     const [stars,setStars] = useState(utils.random(1,9));
     const [availableNums,setAvailableNums] = useState(utils.range(1,9));
     const[candidateNums, setCandidateNums] = useState([])
@@ -41,11 +41,11 @@ const StartMatch = ()=>{
 
         return 'available';
     }
-    const resetGame = () => {
-        setStars(utils.random(1,9))
-        setAvailableNums(utils.range(1,9))
-        setCandidateNums([])
-    }
+    // const resetGame = () => {
+    //     setStars(utils.random(1,9))
+    //     setAvailableNums(utils.range(1,9))
+    //     setCandidateNums([])
+    // }
    
     const onNumberClick = (number, currentStatus)=>{
           if(currentStatus === 'used' || gameStatus !== 'active'){
@@ -78,7 +78,7 @@ const StartMatch = ()=>{
             <div className="left">
                 {
                   gameStatus !== 'active' ? (
-                        <PlayAgain onClick = {resetGame} gameStatus={gameStatus}/>
+                        <PlayAgain onClick = {props.startNewGame} gameStatus={gameStatus}/>
                     ) 
                     :(
                     <StarDisplay count={stars}/>
