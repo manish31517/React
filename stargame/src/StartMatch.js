@@ -6,11 +6,11 @@ import PlayAgain from "./PlayAgain.js";
 
 
 
-
-const StartMatch = (props)=>{
+//Custom hooks -> alway name this function starting with keyword 'use'
+function useGameState(){
     const [stars,setStars] = useState(utils.random(1,9));
     const [availableNums,setAvailableNums] = useState(utils.range(1,9));
-    const[candidateNums, setCandidateNums] = useState([])
+    const[candidateNums, setCandidateNums] = useState([]);
     const [secondLeft, setsecondLeft] = useState(10);
      
    
@@ -24,6 +24,54 @@ const StartMatch = (props)=>{
          return ()=>clearTimeout(timerID);
         }
     })
+
+  const setGameState = (newCandidateNums)=>{
+    if(utils.sum(newCandidateNums) !== stars){
+        setCandidateNums(newCandidateNums)
+      }
+      else{
+          const newAvailableNums = availableNums.filter(
+            n => !newCandidateNums.includes(n)
+          );
+          
+          setStars(utils.randomSumIN(newAvailableNums,9));
+          setAvailableNums(newAvailableNums);
+          setCandidateNums([])
+      }
+  }
+    
+
+      return {stars, availableNums, candidateNums,secondLeft, setGameState};
+}
+
+
+const StartMatch = (props)=>{
+    // const [stars,setStars] = useState(utils.random(1,9));
+    // const [availableNums,setAvailableNums] = useState(utils.range(1,9));
+    // const[candidateNums, setCandidateNums] = useState([])
+    // const [secondLeft, setsecondLeft] = useState(10);
+     
+   
+    // useEffect(()=>{
+    //     if(secondLeft > 0 && availableNums.length  >0){
+              
+    //     let timerID = setTimeout(()=>{
+    //         setsecondLeft(secondLeft-1)
+    //     },1000)
+
+    //      return ()=>clearTimeout(timerID);
+    //     }
+    // })
+
+     // the above commented code  were moved to the custom hook section
+    
+     const {
+        stars,
+        availableNums,
+        candidateNums,
+        secondLeft,
+        setGameState
+     } = useGameState();
 
     const candidatesAreWrong = utils.sum(candidateNums) > stars
    
@@ -55,19 +103,20 @@ const StartMatch = (props)=>{
           const newCandidateNums =
           currentStatus === 'available' ? candidateNums.concat(number):
            candidateNums.filter( cn => cn !== number);
-
-          if(utils.sum(newCandidateNums) !== stars){
-            setCandidateNums(newCandidateNums)
-          }
-          else{
-              const newAvailableNums = availableNums.filter(
-                n => !newCandidateNums.includes(n)
-              );
+       
+           setGameState(newCandidateNums)
+        //   if(utils.sum(newCandidateNums) !== stars){
+        //     setCandidateNums(newCandidateNums)
+        //   }
+        //   else{
+        //       const newAvailableNums = availableNums.filter(
+        //         n => !newCandidateNums.includes(n)
+        //       );
               
-              setStars(utils.randomSumIN(newAvailableNums,9));
-              setAvailableNums(newAvailableNums);
-              setCandidateNums([])
-          }
+        //       setStars(utils.randomSumIN(newAvailableNums,9));
+        //       setAvailableNums(newAvailableNums);
+        //       setCandidateNums([])
+        //   }
     }
     return (
         <div className="game">
