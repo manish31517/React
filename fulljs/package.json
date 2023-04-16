@@ -1,0 +1,32 @@
+{
+  "name": "fulljs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev-serrver": "nodemon --exec babel-node src/server/server.js --ignore dist/",
+    "dev-bundle": "webpack -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-react": "^7.18.6",
+    "babel-loader": "^9.1.2",
+    "dev-server": "^0.2.0",
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webpack": "^5.78.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react": "^7.32.2",
+    "nodemon": "^2.0.22"
+  }
+}
